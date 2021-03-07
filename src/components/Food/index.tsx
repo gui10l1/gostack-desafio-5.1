@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { FiEdit3, FiTrash } from 'react-icons/fi';
+import api from '../../services/api';
 
 import { Container } from './styles';
 
@@ -27,11 +28,20 @@ const Food: React.FC<IProps> = ({
   const [isAvailable, setIsAvailable] = useState(food.available);
 
   async function toggleAvailable(): Promise<void> {
-    // TODO UPDATE STATUS (available)
+    const uptadedAvailableFood = {
+      name: food.name,
+      image: food.image,
+      price: food.price,
+      description: food.description,
+      available: !isAvailable,
+    };
+
+    await api.put(`/foods/${food.id}`, uptadedAvailableFood);
+    setIsAvailable(!isAvailable);
   }
 
   function setEditingFood(): void {
-    // TODO - SET THE ID OF THE CURRENT ITEM TO THE EDITING FOOD AND OPEN MODAL
+    handleEditFood(food);
   }
 
   return (
